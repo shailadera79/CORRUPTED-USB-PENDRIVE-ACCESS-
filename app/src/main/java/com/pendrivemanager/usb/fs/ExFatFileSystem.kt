@@ -247,24 +247,12 @@ class ExFatFileSystem private constructor(
                 cluster += batchClusters
             }
         } else {
-            // Fragmented file - lekin jahan clusters disk par lagataar (consecutive)
-            // hain, unhe ek saath ek hi command mein padh lete hain (batch), taaki
-            // hazaaron chhoti commands na bhejni padein.
-            val chain = clusterChain(entry.firstCluster)
-            var idx = 0
-            while (idx < chain.size && remaining > 0) {
-                var runLength = 1
-                while (idx + runLength < chain.size &&
-                    chain[idx + runLength] == chain[idx + runLength - 1] + 1 &&
-                    runLength < 2048
-                ) {
-                    runLength++
-                }
-                val data = scsi.readSectors(clusterToLba(chain[idx]), runLength * sectorsPerCluster)
+            for (cluster in clusterChain(entry.firstCluster)) {
+                if (remaining <= 0) break
+                val data = scsi.readSectors(clusterToLba(cluster), sectorsPerCluster)
                 val take = minOf(remaining, data.size.toLong()).toInt()
                 out.write(data, 0, take)
                 remaining -= take
-                idx += runLength
             }
         }
     }

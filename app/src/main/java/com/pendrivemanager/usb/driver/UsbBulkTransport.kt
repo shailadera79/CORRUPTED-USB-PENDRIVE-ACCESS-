@@ -21,7 +21,7 @@ class UsbBulkTransport private constructor(
     private val outEndpoint: UsbEndpoint
 ) {
     companion object {
-        private const val TIMEOUT_MS = 15000
+        private const val TIMEOUT_MS = 8000
 
         fun open(usbManager: UsbManager, device: UsbDevice): UsbBulkTransport? {
             for (i in 0 until device.interfaceCount) {
@@ -67,28 +67,5 @@ class UsbBulkTransport private constructor(
         } catch (_: Exception) {
         }
         connection.close()
-    }
-
-    /**
-     * Jab koi command fail ho jaye (jaise bahut bada request jo drive handle na kar
-     * payi), USB endpoint "halt" state mein phas sakta hai — us halat mein har aage
-     * ki command bhi fail hoti rahegi. Yeh function drive ko reset karke usse bahar
-     * nikalta hai, taaki agli command theek se chal sake.
-     */
-    fun resetRecovery() {
-        try {
-            // Bulk-Only Mass Storage Reset (class-specific control request)
-            connection.controlTransfer(0x21, 0xFF, 0, usbInterface.id, null, 0, TIMEOUT_MS)
-        } catch (_: Exception) {
-        }
-        clearHalt(inEndpoint)
-        clearHalt(outEndpoint)
-    }
-
-    private fun clearHalt(endpoint: UsbEndpoint) {
-        try {
-            connection.controlTransfer(0x02, 0x01, 0, endpoint.address, null, 0, TIMEOUT_MS)
-        } catch (_: Exception) {
-        }
     }
 }
