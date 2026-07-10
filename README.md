@@ -65,3 +65,4 @@ app/src/main/java/com/pendrivemanager/usb/
 Allocation bitmap + FAT properly update karna hoga naye clusters allocate
 karne ke liye — yeh agla step hai agar read/delete phone par sahi kaam kar
 jaye. Filhaal maine jaan-boojh kar skip kiya hai safety ke liye.
+sha256:d9c7bfc2693d2900d6b95344844244d1028e00310fea8a74d5dec3dd28dfbc9d
