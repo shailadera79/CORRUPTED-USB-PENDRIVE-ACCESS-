@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Pen Drive Manager</string>
+    <string name="no_device">No USB drive connected.\nPlease connect your pendrive with an OTG adapter.</string>
+    <string name="requesting_permission">Requesting USB permission…</string>
+    <string name="unsupported_fs">Could not mount the drive. Please confirm the pendrive is formatted as exFAT (NTFS/FAT32 are not supported in this version).</string>
+</resources>

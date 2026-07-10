@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        class 8 = USB Mass Storage class (pendrives yahi class use karte hain).
+        Isse app sirf mass-storage type USB devices ke liye trigger hogi,
+        random USB devices (keyboard, mouse, etc.) ke liye nahi.
+    -->
+    <usb-device class="8" />
+</resources>
